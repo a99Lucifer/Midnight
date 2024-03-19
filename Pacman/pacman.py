@@ -5,7 +5,7 @@ from constants import *
 
 class Pacman(object):
     def __init__(self, node):
-        self.name = "Pac-Carter-Man"
+        self.name = PACMAN
 #        self.position = Vector2(200, 400)
         self.directions = {STOP:Vector2(), UP:Vector2(0, -1), DOWN:Vector2(0, 1), LEFT:Vector2(-1, 0), RIGHT:Vector2(1, 0)}
         self.direction = STOP
