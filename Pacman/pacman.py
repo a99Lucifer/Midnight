@@ -6,7 +6,6 @@ from constants import *
 class Pacman(object):
     def __init__(self, node):
         self.name = PACMAN
-#        self.position = Vector2(200, 400)
         self.directions = {STOP:Vector2(), UP:Vector2(0, -1), DOWN:Vector2(0, 1), LEFT:Vector2(-1, 0), RIGHT:Vector2(1, 0)}
         self.direction = STOP
         self.speed = 100 * TILEWIDTH / 16
@@ -22,17 +21,13 @@ class Pacman(object):
     def update(self, dt):
         self.position += self.directions[self.direction] * self.speed * dt
         direction = self.getValidKey()
-#        self.direction = direction
-#        self.node = self.getNewTarget(direction)
-#        self.setPosition()
         if self.overshotTarget():
             self.node = self.target
+            if self.node.neighbors[PORTAL] is not None:
+                self.node = self.node.neighbors[PORTAL]
             self.target = self.getNewTarget(direction)
             if self.target is not self.node:
                 self.direction = direction
-#            else:
-#                self.direction = STOP
-#                self.setPosition()
             else:
                 self.target = self.getNewTarget(self.direction)
             if self.target is self.node:
