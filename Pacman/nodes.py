@@ -21,7 +21,7 @@ class NodeGroup(object):
         self.level = level
         self.nodesLUT = {}
         self.nodeSymbols = ['+', 'P', 'p']
-        self.pathSymbols = ['.', '-', 'l', 'p']
+        self.pathSymbols = ['.', '-', '|', 'p']
         data = self.readMazeFile(level)
         self.createNodeTable(data)
         self.connectHorizontally(data)
@@ -29,11 +29,6 @@ class NodeGroup(object):
 
     def readMazeFile(self, textfile):
         return np.loadtxt(textfile, dtype = '<U1')
-
-    def render(self, screen):
-#        for node in self.nodeList:
-        for node in self.nodesLUT.values():
-            node.render(screen)
 
     def createNodeTable(self, data, xoffset = 0, yoffset = 0):
         for row in list(range(data.shape[0])):
@@ -64,7 +59,7 @@ class NodeGroup(object):
         dataT = data.transpose()
         for col in list(range(dataT.shape[0])):
             key = None
-            for row in list(range(dataT.shape[0])):
+            for row in list(range(dataT.shape[1])):
                 if dataT[col][row] in self.nodeSymbols:
                     if key is None:
                         key = self.constructKey(col + xoffset, row + yoffset)
@@ -97,3 +92,7 @@ class NodeGroup(object):
         if key1 in self.nodesLUT.keys() and key2 in self.nodesLUT.keys():
             self.nodesLUT[key1].neighbors[PORTAL] = self.nodesLUT[key2]
             self.nodesLUT[key2].neighbors[PORTAL] = self.nodesLUT[key1]
+
+    def render(self, screen):
+        for node in self.nodesLUT.values():
+            node.render(screen)

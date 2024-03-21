@@ -27,6 +27,12 @@ class PowerPellet(Pellet):
         self.flashTime = 0.2
         self.timer = 0
 
+    def update(self, dt):
+        self.timer += dt
+        if self.timer >= self.flashTime:
+            self.visible = not self.visible
+            self.timer = 0
+
 class PelletGroup(object):
     def __init__(self, pelletfile):
         self.pelletList = []
@@ -35,10 +41,8 @@ class PelletGroup(object):
         self.numEaten = 0
 
     def update(self, dt):
-        self.timer += dt
-        if self.timer >= self.flashTime:
-            self.visible = not self.visible
-            self.timer = 0
+        for powerpellet in self.powerpellets:
+            powerpellet.update(dt)
 
     def createPelletList(self, pelletfile):
         data = self.readPelletfile(pelletfile)
